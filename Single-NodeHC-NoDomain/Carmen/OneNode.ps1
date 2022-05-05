@@ -1,3 +1,8 @@
+[CmdletBinding()] param (
+    [Parameter(Mandatory = $true)]
+    [ValidateSet("Step-0-LearnMore","Step-1-PrepareNode", "Step-2-ConfigureCluster", "Step-3-RegisterCluster", "Step-4-PrepareAksHci", "Step-5-InstallAksHci")] 
+    [String] $Step
+)
 # Read in required Globals from config.txt file
 
 $config = ConvertFrom-StringData (Get-Content -Raw ./config.txt)
@@ -8,6 +13,9 @@ foreach($i in $config.Keys) {New-Variable -Name $i -Value ($config.$i) -Force}
 $ClusterName = "cl-$HCINodeName"
 $AzResourceGroup = "rg-$HCINodeName"
 
+function Step0-LearnMore { 
+    Write-Host "TODO: Add information, URL to repo, etc..."   
+}
 
 function Step1-PrepareNode {
 
@@ -121,4 +129,14 @@ function Step5-InstallAKSHCI {
     Set-AksHciRegistration -subscriptionId $AzSubscription -resourceGroupName $AzResourceGroup -UseDeviceAuthentication
 
     Install-AksHci
+}
+
+
+switch ($Step) {
+    'Step-0-LearnMore'           { Step0-LearnMore }
+    'Step-1-PrepareNode'         { Step1-PrepareNode }
+    'Step-2-ConfigureCluster'    { Step2-ConfigureCluster }
+    'Step-3-RegisterCluster'     { Step3-RegisterCluster }
+    'Step-4-PrepareAksHci'       { Step4-PrepareAKSHCI }
+    'Step-5-InstallAksHci'       { Step5-InstallAKSHCI }
 }
