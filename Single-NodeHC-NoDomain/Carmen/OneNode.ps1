@@ -1,7 +1,6 @@
 [CmdletBinding()] param (
-    [Parameter(Mandatory = $true)]
     [ValidateSet("Step-0-LearnMore","Step-1-PrepareNode", "Step-2-ConfigureCluster", "Step-3-RegisterCluster", "Step-4-PrepareAksHci", "Step-5-InstallAksHci")] 
-    [String] $Step
+    [String]$Step='Step-0-LearnMore'
 )
 # Read in required Globals from config.txt file
 
@@ -131,6 +130,7 @@ function Step5-InstallAKSHCI {
     Install-AksHci
 }
 
+#Main
 
 switch ($Step) {
     'Step-0-LearnMore'           { Step0-LearnMore }
